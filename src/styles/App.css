@@ -1,0 +1,609 @@
+:root {
+  /* Palette inspired by the uploaded images */
+  --bg-color: #0d0d0d;
+  --card-bg: #1a1a1a;
+  --neon-pink: #ff0055;
+  --neon-cyan: #00ffff;
+  --neon-yellow: #ffcc00;
+  --text-color: #ffffff;
+  --text-muted: #aaaaaa;
+  --border-width: 3px;
+  --overlay-color: rgba(13, 13, 13, 0.9);
+  /* Default Dark Overlay */
+  --font-main: "Space Grotesk", sans-serif;
+  --font-header: "Press Start 2P", cursive;
+  --base-font-size: 1rem;
+}
+
+/* --- LIGHT MODE VARIABLES --- */
+body.light-mode {
+  --bg-color: #f4f4f4b2;
+  --card-bg: #ffffff;
+  --text-color: #000000;
+  --text-muted: #666666;
+  --overlay-color: rgba(255, 255, 255, 0.719);
+  /* Light Overlay */
+}
+
+body.light-mode form {
+  box-shadow: 10px 10px 0px rgba(0, 255, 255, 0.5);
+}
+
+body.light-mode h1 {
+  text-shadow: 4px 4px 0px rgba(255, 0, 85, 0.5);
+}
+
+/* FIX: Button Text in Light Mode */
+body.light-mode button {
+  background: #000;
+  color: var(--neon-cyan);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode button:hover {
+  background: var(--neon-cyan);
+  color: #000;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode button.secondary {
+  background: #e0e0e0;
+  color: #000;
+  box-shadow: 6px 6px 0px #999;
+}
+
+body.light-mode button.secondary:hover {
+  background: #d0d0d0;
+  box-shadow: 3px 3px 0px #999;
+}
+
+/* --- RTL / ARABIC MODE --- */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+  --font-main: "Cairo", sans-serif;
+  --font-header: "Cairo", sans-serif;
+  /* Arabic Font Size Adjustment: Make it slightly bigger */
+  --base-font-size: 1.15rem;
+  font-weight: 700;
+}
+
+body.rtl h1 {
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Switch positioning in RTL body is handled by the wrapper's LTR force */
+
+body.rtl h2 {
+  border-left: none;
+  border-right: 5px solid var(--neon-pink);
+  padding-left: 0;
+  padding-right: 15px;
+}
+
+body.rtl .scale-item:first-child {
+  border-radius: 0 5px 5px 0;
+  margin-left: -2px;
+}
+
+body.rtl .scale-item:last-child {
+  border-radius: 5px 0 0 5px;
+  margin-left: 0;
+}
+
+body.rtl .fa-solid,
+body.rtl .fa-brands {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+body.rtl .nav-buttons {
+  flex-direction: row-reverse;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-main);
+  font-size: var(--base-font-size);
+  /* Dynamic Font Size */
+  margin: 0;
+  padding: 20px;
+  overflow-x: hidden;
+  background-image: linear-gradient(var(--overlay-color), var(--overlay-color)),
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm20 20h20v20H20V20z' fill='%23222' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+  transition: background-color 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+
+  /* Centering */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Layout & Container --- */
+/* .container handled by Bootstrap */
+/* 
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+} 
+*/
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: var(--border-width) solid var(--neon-cyan);
+  padding-bottom: 20px;
+}
+
+h1 {
+  font-family: var(--font-header);
+  font-size: 1.8rem;
+  color: var(--neon-yellow);
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0px var(--neon-pink);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+p.subtitle {
+  color: var(--neon-cyan);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-family: var(--font-header);
+  font-size: 0.7rem;
+}
+
+/* --- Progress Bar --- */
+.progress-container {
+  width: 100%;
+  background: #333;
+  height: 20px;
+  border: 2px solid #fff;
+  margin-bottom: 30px;
+  position: relative;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.progress-bar {
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--neon-pink),
+    var(--neon-pink) 10px,
+    var(--neon-yellow) 10px,
+    var(--neon-yellow) 20px
+  );
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+/* --- View Toggle Wrapper (Header Controls) --- */
+.view-toggle-wrapper {
+  display: flex;
+  justify-content: space-between;
+  /* Keeps items pushed to sides */
+  align-items: center;
+  margin-bottom: 20px;
+  font-family: var(--font-header);
+  font-size: 0.6rem;
+  direction: ltr;
+  /* FIXED: Forces Left-to-Right layout */
+  width: 100%;
+}
+
+.switch-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Theme Toggle */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #333;
+  border: 2px solid var(--text-color);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--neon-cyan);
+  transition: 0.4s;
+  box-shadow: 2px 2px 0 #000;
+}
+
+input:checked + .slider {
+  background-color: var(--neon-pink);
+}
+
+input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+/* Language Button Styling */
+.lang-btn {
+  font-family: "Cairo", sans-serif;
+  /* Use Arabic font for button */
+  font-weight: 700;
+  background: transparent;
+  color: var(--neon-cyan);
+  /* Neon Text for Dark Mode */
+  border: 2px solid var(--neon-cyan);
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px var(--neon-cyan);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lang-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--neon-cyan);
+  background: var(--neon-cyan);
+  color: #000;
+  /* Black text on neon background on hover */
+}
+
+.lang-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px;
+}
+
+/* Light Mode - Solid Black Button with Neon Text */
+body.light-mode .lang-btn {
+  background-color: #000;
+  border-color: #000;
+  color: var(--neon-cyan);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .lang-btn:hover {
+  background: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  color: #000;
+}
+
+/* --- Form Sections --- */
+form {
+  background: var(--card-bg);
+  border: var(--border-width) solid var(--text-color);
+  padding: 30px;
+  box-shadow: 10px 10px 0px var(--neon-cyan);
+  position: relative;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.form-section {
+  display: none;
+  animation: fadeIn 0.5s;
+}
+
+.form-section.active {
+  display: block;
+}
+
+h2 {
+  font-family: var(--font-header);
+  font-size: 1rem;
+  color: var(--neon-cyan);
+  margin-bottom: 20px;
+  border-left: 5px solid var(--neon-pink);
+  padding-left: 15px;
+  line-height: 1.5;
+}
+
+/* --- Inputs & Questions --- */
+.question-block {
+  margin-bottom: 25px;
+}
+
+label.q-text {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-color);
+  border: 2px solid #555;
+  color: var(--text-color);
+  font-family: var(--font-main);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: var(--neon-yellow);
+  outline: none;
+  box-shadow: 0 0 15px var(--neon-yellow);
+}
+
+/* --- Input Error Styling --- */
+input.input-error {
+  border-color: #ff0000 !important;
+  box-shadow: 0 0 10px #ff0000 !important;
+}
+
+.error-message {
+  color: #ff0000;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  margin-top: 8px;
+  display: none;
+  /* Hidden by default */
+  font-weight: bold;
+}
+
+/* Hide default inputs */
+input[type="radio"],
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Flex Grid for Options */
+.options-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Outline Button Style */
+.option-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 45%;
+  text-align: center;
+  cursor: pointer;
+  background: transparent;
+  padding: 12px 20px;
+  border: 2px solid var(--text-color);
+  color: var(--text-color);
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  position: relative;
+}
+
+.option-label:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.option-label:has(input:checked) {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-yellow));
+  border-color: var(--neon-cyan);
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 0 10px var(--neon-cyan);
+  transform: translateY(-2px);
+}
+
+/* Horizontal Scale */
+.scale-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  gap: 0;
+}
+
+.scale-item {
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid var(--text-color);
+  color: var(--text-color);
+  padding: 15px 5px;
+  text-align: center;
+  transition: all 0.2s ease;
+  margin-left: -2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scale-item:first-child {
+  margin-left: 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.scale-item:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.scale-item:hover {
+  z-index: 2;
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.scale-item:has(input:checked) {
+  z-index: 3;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-yellow));
+  border-color: var(--neon-cyan);
+  color: #000;
+  font-weight: 700;
+}
+
+.scale-item span {
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* --- Navigation Buttons --- */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #333;
+}
+
+button {
+  font-family: var(--font-header);
+  background: var(--text-color);
+  color: #000;
+  border: none;
+  padding: 15px 25px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 6px 6px 0px var(--neon-pink);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+/* Disabled Button Style */
+button:disabled {
+  background: #555 !important;
+  color: #888 !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  transform: none !important;
+  opacity: 0.6;
+}
+
+button:hover:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0px var(--neon-pink);
+  background: var(--neon-cyan);
+}
+
+button:active:not(:disabled) {
+  transform: translate(6px, 6px);
+  box-shadow: 0px 0px 0px var(--neon-pink);
+}
+
+button.secondary {
+  background: #333;
+  color: #fff;
+  box-shadow: 6px 6px 0px #555;
+}
+
+button.secondary:hover {
+  box-shadow: 3px 3px 0px #555;
+  background: #444;
+}
+
+.submit-btn-wrapper {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+}
+
+button.submit-btn {
+  background: var(--neon-yellow);
+  color: #000;
+  width: 100%;
+  font-size: 1rem;
+  padding: 20px;
+  justify-content: center;
+}
+
+button.submit-btn:hover {
+  background: #ffdb4d;
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0px var(--neon-pink);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  h2 {
+    font-size: 0.8rem;
+  }
+
+  .scale-options {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .scale-item {
+    border-radius: 5px !important;
+    margin-left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+
+  button {
+    padding: 12px 15px;
+    font-size: 0.7rem;
+  }
+}
